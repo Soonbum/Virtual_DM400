@@ -9,9 +9,6 @@ namespace Virtual_DM400
         int rowCount = -1;
         List<SerialPortEmulator> serialPortEmulators = new();
 
-        //private Thread uiUpdateThread;
-        //private bool isUiUpdating = false;
-
         public DM400()
         {
             InitializeComponent();
@@ -26,21 +23,15 @@ namespace Virtual_DM400
             dataGridView_PortConfiguration.Columns["StopBits"].ValueType = typeof(int);
 
             dataGridView_PortConfiguration.Rows.Add("FirmwareController", "COM6", 115200, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
+            dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM6", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
         }
 
         private void DM400_Load(object sender, EventArgs e)
         {
-            //isUiUpdating = true;
-            //uiUpdateThread = new Thread(UpdateUiLoop);
-            //uiUpdateThread.IsBackground = true; // 메인 앱 종료 시 함께 종료
-            //uiUpdateThread.Start();
         }
 
         private void DM400_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // UI 업데이트 스레드 종료 신호
-            //isUiUpdating = false;
-
             // 기존 시리얼 포트 종료 로직
             if (buttonPortClose.Enabled)
             {
@@ -293,17 +284,17 @@ namespace Virtual_DM400
                 else if (currentValue <= originVal)
                 {
                     // 구간 1: Top ~ Origin 사이
-                    newY = Interpolate(currentValue, topVal, originVal, topY, originY);
+                    newY = InterpolateForBuildPlatform(currentValue, topVal, originVal, topY, originY);
                 }
                 else if (currentValue <= limitAVal)
                 {
                     // 구간 2: Origin ~ LimitA 사이
-                    newY = Interpolate(currentValue, originVal, limitAVal, originY, limitAY);
+                    newY = InterpolateForBuildPlatform(currentValue, originVal, limitAVal, originY, limitAY);
                 }
                 else if (currentValue <= limitBVal)
                 {
                     // 구간 3: LimitA ~ LimitB 사이
-                    newY = Interpolate(currentValue, limitAVal, limitBVal, limitAY, limitBY);
+                    newY = InterpolateForBuildPlatform(currentValue, limitAVal, limitBVal, limitAY, limitBY);
                 }
                 else
                 {
@@ -452,7 +443,7 @@ namespace Virtual_DM400
             return "ERROR";
         }
 
-        private int Interpolate(double currentValue, double startVal, double endVal, int startY, int endY)
+        private int InterpolateForBuildPlatform(double currentValue, double startVal, double endVal, int startY, int endY)
         {
             double valueRange = endVal - startVal;
             // 0으로 나누는 것을 방지

@@ -23,7 +23,7 @@ namespace Virtual_DM400
             dataGridView_PortConfiguration.Columns["StopBits"].ValueType = typeof(int);
 
             dataGridView_PortConfiguration.Rows.Add("FirmwareController", "COM6", 115200, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
-            dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM6", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
+            dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM4", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
         }
 
         private void DM400_Load(object sender, EventArgs e)
@@ -194,6 +194,90 @@ namespace Virtual_DM400
 
         private string ProcessReceivedData(string receivedData)
         {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 레벨 센서
+            // 의미: sensor 01에게 RMD 명령을 보내면 현재 측정 값을 알려줌
+            if (receivedData.Trim() == "%01#RMD**")
+            {
+                // 예제: "%01$RMD-0123456**" : -12.3456mm
+                double lower = -10.0;
+                double upper = -1.0;
+
+                Random rand = new Random();
+                double randomValue = rand.NextDouble() * (upper - lower) + lower;
+
+                // 예: -9.8765 -> -98765
+                int intValue = (int)(randomValue * 10000);
+
+                // 4. 8자리 문자열로 포매팅
+                // 형식: 부호(1자리) + 0으로 채운 숫자(7자리)
+                // 예: -98765 -> "-0098765"
+                string formattedValue = string.Format("{0:+0000000;-0000000}", intValue);
+
+                // 5. 최종 응답 문자열 조합
+                string responseData = $"%01$RMD{formattedValue}**";
+
+                // ...
+                mainForm.TextBoxCurrentWaterLevel.Text = $"{randomValue:F4}"; // 현재 수위 표시
+
+                return responseData;
+            }
+
+            //public int GetLightAmount()
+            //{
+            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
+            //    this.serialPort.Write("%01#RID**\r");
+            //    Thread.Sleep(50);
+
+            //    string receivedMessage = this.serialPort.ReadExisting();
+            //    int returnLightAmount = Convert.ToInt32(receivedMessage.Substring(7, 6));
+
+            //    return returnLightAmount;
+            //}
+
+
+            //// 샘플링 주기를 지정함 (enum Sampling 값 참조)
+            //public string SetSamplingRate(int samplingRate)
+            //{
+            //    string[] messageList = ["%01#WSP+00000**\r", "%01#WSP+00001**\r", "%01#WSP+00002**\r", "%01#WSP+00003**\r"];    // Rate_200us, Rate_500us, Rate_1ms, Rate_2ms
+
+            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
+            //    this.serialPort.Write(messageList[samplingRate]);
+            //    Thread.Sleep(50);
+
+            //    string returnString = this.serialPort.ReadExisting();
+
+            //    return returnString;
+            //}
+
+            //// 초기화를 수행함 (enum Initialization 값 참조)
+            //public void SetSamplingRateValue(int samplingRate) { this.samplingRateValue = samplingRate; }
+
+            //public string SetInitialization(int command)
+            //{
+            //    string[] messageList = ["%01#WIN+00000**\r", "%01#WIN+00001**\r"];      // Command_None, Command_Initialize
+
+            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
+            //    this.serialPort.Write(messageList[command]);
+            //    Thread.Sleep(50);
+
+            //    string returnString = this.serialPort.ReadExisting();
+
+            //    return returnString;
+            //}
+
+            //// 영점 기준을 지정함
+            //public string SetZeroSet()
+            //{
+            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
+            //    this.serialPort.Write("%01#WZS+00001**\r");
+            //    Thread.Sleep(50);
+
+            //    string returnString = this.serialPort.ReadExisting();
+
+            //    return returnString;
+            //}
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 원보드
             // 레벨 탱크 이동
             if (receivedData.Trim().StartsWith("7E03"))
             {

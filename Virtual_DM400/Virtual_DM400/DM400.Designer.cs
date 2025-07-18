@@ -63,13 +63,19 @@
             buttonClear = new Button();
             buttonPortClose = new Button();
             buttonPortOpen = new Button();
+            PanelStage = new Panel();
+            PanelWaterLevel = new Panel();
+            TextBoxCurrentWaterLevel = new TextBox();
+            LabelCurrentWaterLevel = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView_PortConfiguration).BeginInit();
+            PanelStage.SuspendLayout();
+            PanelWaterLevel.SuspendLayout();
             SuspendLayout();
             // 
             // ButtonLevelTank
             // 
             ButtonLevelTank.ForeColor = Color.Blue;
-            ButtonLevelTank.Location = new Point(204, 67);
+            ButtonLevelTank.Location = new Point(196, 31);
             ButtonLevelTank.Name = "ButtonLevelTank";
             ButtonLevelTank.Size = new Size(109, 273);
             ButtonLevelTank.TabIndex = 0;
@@ -78,7 +84,7 @@
             // 
             // TextBoxLevelTankZero
             // 
-            TextBoxLevelTankZero.Location = new Point(74, 67);
+            TextBoxLevelTankZero.Location = new Point(66, 31);
             TextBoxLevelTankZero.Name = "TextBoxLevelTankZero";
             TextBoxLevelTankZero.Size = new Size(100, 23);
             TextBoxLevelTankZero.TabIndex = 1;
@@ -86,7 +92,7 @@
             // 
             // TextBoxLevelTankLimit
             // 
-            TextBoxLevelTankLimit.Location = new Point(74, 299);
+            TextBoxLevelTankLimit.Location = new Point(66, 263);
             TextBoxLevelTankLimit.Name = "TextBoxLevelTankLimit";
             TextBoxLevelTankLimit.Size = new Size(100, 23);
             TextBoxLevelTankLimit.TabIndex = 2;
@@ -95,7 +101,7 @@
             // LabelLevelTankZero
             // 
             LabelLevelTankZero.AutoSize = true;
-            LabelLevelTankZero.Location = new Point(30, 93);
+            LabelLevelTankZero.Location = new Point(22, 57);
             LabelLevelTankZero.Name = "LabelLevelTankZero";
             LabelLevelTankZero.Size = new Size(141, 15);
             LabelLevelTankZero.TabIndex = 3;
@@ -104,7 +110,7 @@
             // LabelLevelTankLimit
             // 
             LabelLevelTankLimit.AutoSize = true;
-            LabelLevelTankLimit.Location = new Point(30, 325);
+            LabelLevelTankLimit.Location = new Point(22, 289);
             LabelLevelTankLimit.Name = "LabelLevelTankLimit";
             LabelLevelTankLimit.Size = new Size(144, 15);
             LabelLevelTankLimit.TabIndex = 4;
@@ -113,7 +119,7 @@
             // ButtonBuildPlatform
             // 
             ButtonBuildPlatform.ForeColor = Color.Blue;
-            ButtonBuildPlatform.Location = new Point(326, 460);
+            ButtonBuildPlatform.Location = new Point(318, 424);
             ButtonBuildPlatform.Name = "ButtonBuildPlatform";
             ButtonBuildPlatform.Size = new Size(416, 42);
             ButtonBuildPlatform.TabIndex = 5;
@@ -123,7 +129,7 @@
             // LabelBuildPlatformPositionTop
             // 
             LabelBuildPlatformPositionTop.AutoSize = true;
-            LabelBuildPlatformPositionTop.Location = new Point(852, 383);
+            LabelBuildPlatformPositionTop.Location = new Point(844, 347);
             LabelBuildPlatformPositionTop.Name = "LabelBuildPlatformPositionTop";
             LabelBuildPlatformPositionTop.Size = new Size(158, 15);
             LabelBuildPlatformPositionTop.TabIndex = 7;
@@ -131,7 +137,7 @@
             // 
             // TextBoxBuildPlatformPositionTop
             // 
-            TextBoxBuildPlatformPositionTop.Location = new Point(852, 357);
+            TextBoxBuildPlatformPositionTop.Location = new Point(844, 321);
             TextBoxBuildPlatformPositionTop.Name = "TextBoxBuildPlatformPositionTop";
             TextBoxBuildPlatformPositionTop.Size = new Size(100, 23);
             TextBoxBuildPlatformPositionTop.TabIndex = 6;
@@ -140,7 +146,7 @@
             // LabelBuildPlatformPositionOrigin
             // 
             LabelBuildPlatformPositionOrigin.AutoSize = true;
-            LabelBuildPlatformPositionOrigin.Location = new Point(852, 487);
+            LabelBuildPlatformPositionOrigin.Location = new Point(844, 451);
             LabelBuildPlatformPositionOrigin.Name = "LabelBuildPlatformPositionOrigin";
             LabelBuildPlatformPositionOrigin.Size = new Size(171, 15);
             LabelBuildPlatformPositionOrigin.TabIndex = 9;
@@ -148,7 +154,7 @@
             // 
             // TextBoxBuildPlatformPositionOrigin
             // 
-            TextBoxBuildPlatformPositionOrigin.Location = new Point(852, 461);
+            TextBoxBuildPlatformPositionOrigin.Location = new Point(844, 425);
             TextBoxBuildPlatformPositionOrigin.Name = "TextBoxBuildPlatformPositionOrigin";
             TextBoxBuildPlatformPositionOrigin.Size = new Size(100, 23);
             TextBoxBuildPlatformPositionOrigin.TabIndex = 8;
@@ -157,7 +163,7 @@
             // LabelBuildPlatformPositionLimitA
             // 
             LabelBuildPlatformPositionLimitA.AutoSize = true;
-            LabelBuildPlatformPositionLimitA.Location = new Point(852, 600);
+            LabelBuildPlatformPositionLimitA.Location = new Point(844, 564);
             LabelBuildPlatformPositionLimitA.Name = "LabelBuildPlatformPositionLimitA";
             LabelBuildPlatformPositionLimitA.Size = new Size(173, 15);
             LabelBuildPlatformPositionLimitA.TabIndex = 11;
@@ -165,7 +171,7 @@
             // 
             // TextBoxBuildPlatformPositionLimitA
             // 
-            TextBoxBuildPlatformPositionLimitA.Location = new Point(852, 574);
+            TextBoxBuildPlatformPositionLimitA.Location = new Point(844, 538);
             TextBoxBuildPlatformPositionLimitA.Name = "TextBoxBuildPlatformPositionLimitA";
             TextBoxBuildPlatformPositionLimitA.Size = new Size(100, 23);
             TextBoxBuildPlatformPositionLimitA.TabIndex = 10;
@@ -174,7 +180,7 @@
             // LabelBuildPlatformPositionLimitB
             // 
             LabelBuildPlatformPositionLimitB.AutoSize = true;
-            LabelBuildPlatformPositionLimitB.Location = new Point(852, 669);
+            LabelBuildPlatformPositionLimitB.Location = new Point(844, 633);
             LabelBuildPlatformPositionLimitB.Name = "LabelBuildPlatformPositionLimitB";
             LabelBuildPlatformPositionLimitB.Size = new Size(172, 15);
             LabelBuildPlatformPositionLimitB.TabIndex = 13;
@@ -182,7 +188,7 @@
             // 
             // TextBoxBuildPlatformPositionLimitB
             // 
-            TextBoxBuildPlatformPositionLimitB.Location = new Point(852, 643);
+            TextBoxBuildPlatformPositionLimitB.Location = new Point(844, 607);
             TextBoxBuildPlatformPositionLimitB.Name = "TextBoxBuildPlatformPositionLimitB";
             TextBoxBuildPlatformPositionLimitB.Size = new Size(100, 23);
             TextBoxBuildPlatformPositionLimitB.TabIndex = 12;
@@ -191,7 +197,7 @@
             // ButtonPrintBlade
             // 
             ButtonPrintBlade.ForeColor = Color.Blue;
-            ButtonPrintBlade.Location = new Point(758, 402);
+            ButtonPrintBlade.Location = new Point(750, 366);
             ButtonPrintBlade.Name = "ButtonPrintBlade";
             ButtonPrintBlade.Size = new Size(59, 52);
             ButtonPrintBlade.TabIndex = 14;
@@ -201,7 +207,7 @@
             // ButtonCollectBlade
             // 
             ButtonCollectBlade.ForeColor = Color.Blue;
-            ButtonCollectBlade.Location = new Point(758, 299);
+            ButtonCollectBlade.Location = new Point(750, 263);
             ButtonCollectBlade.Name = "ButtonCollectBlade";
             ButtonCollectBlade.Size = new Size(59, 52);
             ButtonCollectBlade.TabIndex = 15;
@@ -211,7 +217,7 @@
             // LabelCollectBladeZero
             // 
             LabelCollectBladeZero.AutoSize = true;
-            LabelCollectBladeZero.Location = new Point(326, 138);
+            LabelCollectBladeZero.Location = new Point(318, 102);
             LabelCollectBladeZero.Name = "LabelCollectBladeZero";
             LabelCollectBladeZero.Size = new Size(155, 15);
             LabelCollectBladeZero.TabIndex = 17;
@@ -219,7 +225,7 @@
             // 
             // TextBoxCollectBladeZero
             // 
-            TextBoxCollectBladeZero.Location = new Point(326, 112);
+            TextBoxCollectBladeZero.Location = new Point(318, 76);
             TextBoxCollectBladeZero.Name = "TextBoxCollectBladeZero";
             TextBoxCollectBladeZero.Size = new Size(100, 23);
             TextBoxCollectBladeZero.TabIndex = 16;
@@ -228,7 +234,7 @@
             // LabelCollectBladeLimit
             // 
             LabelCollectBladeLimit.AutoSize = true;
-            LabelCollectBladeLimit.Location = new Point(758, 138);
+            LabelCollectBladeLimit.Location = new Point(750, 102);
             LabelCollectBladeLimit.Name = "LabelCollectBladeLimit";
             LabelCollectBladeLimit.Size = new Size(158, 15);
             LabelCollectBladeLimit.TabIndex = 19;
@@ -236,7 +242,7 @@
             // 
             // TextBoxCollectBladeLimit
             // 
-            TextBoxCollectBladeLimit.Location = new Point(758, 112);
+            TextBoxCollectBladeLimit.Location = new Point(750, 76);
             TextBoxCollectBladeLimit.Name = "TextBoxCollectBladeLimit";
             TextBoxCollectBladeLimit.Size = new Size(100, 23);
             TextBoxCollectBladeLimit.TabIndex = 18;
@@ -245,7 +251,7 @@
             // LabelPrintBladeLimit
             // 
             LabelPrintBladeLimit.AutoSize = true;
-            LabelPrintBladeLimit.Location = new Point(758, 219);
+            LabelPrintBladeLimit.Location = new Point(750, 183);
             LabelPrintBladeLimit.Name = "LabelPrintBladeLimit";
             LabelPrintBladeLimit.Size = new Size(146, 15);
             LabelPrintBladeLimit.TabIndex = 23;
@@ -253,7 +259,7 @@
             // 
             // TextBoxPrintBladeLimit
             // 
-            TextBoxPrintBladeLimit.Location = new Point(758, 193);
+            TextBoxPrintBladeLimit.Location = new Point(750, 157);
             TextBoxPrintBladeLimit.Name = "TextBoxPrintBladeLimit";
             TextBoxPrintBladeLimit.Size = new Size(100, 23);
             TextBoxPrintBladeLimit.TabIndex = 22;
@@ -262,7 +268,7 @@
             // LabelPrintBladeZero
             // 
             LabelPrintBladeZero.AutoSize = true;
-            LabelPrintBladeZero.Location = new Point(326, 219);
+            LabelPrintBladeZero.Location = new Point(318, 183);
             LabelPrintBladeZero.Name = "LabelPrintBladeZero";
             LabelPrintBladeZero.Size = new Size(143, 15);
             LabelPrintBladeZero.TabIndex = 21;
@@ -270,7 +276,7 @@
             // 
             // TextBoxPrintBladeZero
             // 
-            TextBoxPrintBladeZero.Location = new Point(326, 193);
+            TextBoxPrintBladeZero.Location = new Point(318, 157);
             TextBoxPrintBladeZero.Name = "TextBoxPrintBladeZero";
             TextBoxPrintBladeZero.Size = new Size(100, 23);
             TextBoxPrintBladeZero.TabIndex = 20;
@@ -280,9 +286,9 @@
             // 
             dataGridView_PortConfiguration.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView_PortConfiguration.Columns.AddRange(new DataGridViewColumn[] { DeviceName, PortName, BaudRate, Parity, DataBits, StopBits });
-            dataGridView_PortConfiguration.Location = new Point(30, 749);
+            dataGridView_PortConfiguration.Location = new Point(12, 972);
             dataGridView_PortConfiguration.Name = "dataGridView_PortConfiguration";
-            dataGridView_PortConfiguration.Size = new Size(751, 150);
+            dataGridView_PortConfiguration.Size = new Size(751, 243);
             dataGridView_PortConfiguration.TabIndex = 24;
             // 
             // DeviceName
@@ -318,15 +324,15 @@
             // 
             // logText
             // 
-            logText.Location = new Point(30, 917);
+            logText.Location = new Point(772, 972);
             logText.Name = "logText";
-            logText.Size = new Size(1007, 183);
+            logText.Size = new Size(292, 212);
             logText.TabIndex = 25;
             logText.Text = "";
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(947, 874);
+            buttonClear.Location = new Point(974, 1190);
             buttonClear.Name = "buttonClear";
             buttonClear.Size = new Size(90, 25);
             buttonClear.TabIndex = 26;
@@ -336,7 +342,7 @@
             // 
             // buttonPortClose
             // 
-            buttonPortClose.Location = new Point(804, 780);
+            buttonPortClose.Location = new Point(868, 1190);
             buttonPortClose.Name = "buttonPortClose";
             buttonPortClose.Size = new Size(90, 25);
             buttonPortClose.TabIndex = 28;
@@ -346,7 +352,7 @@
             // 
             // buttonPortOpen
             // 
-            buttonPortOpen.Location = new Point(804, 749);
+            buttonPortOpen.Location = new Point(772, 1190);
             buttonPortOpen.Name = "buttonPortOpen";
             buttonPortOpen.Size = new Size(90, 25);
             buttonPortOpen.TabIndex = 27;
@@ -354,47 +360,85 @@
             buttonPortOpen.UseVisualStyleBackColor = true;
             buttonPortOpen.Click += buttonPortOpen_Click;
             // 
+            // PanelStage
+            // 
+            PanelStage.Controls.Add(TextBoxLevelTankZero);
+            PanelStage.Controls.Add(ButtonLevelTank);
+            PanelStage.Controls.Add(TextBoxLevelTankLimit);
+            PanelStage.Controls.Add(LabelLevelTankZero);
+            PanelStage.Controls.Add(LabelLevelTankLimit);
+            PanelStage.Controls.Add(ButtonBuildPlatform);
+            PanelStage.Controls.Add(LabelPrintBladeLimit);
+            PanelStage.Controls.Add(TextBoxBuildPlatformPositionTop);
+            PanelStage.Controls.Add(TextBoxPrintBladeLimit);
+            PanelStage.Controls.Add(LabelBuildPlatformPositionTop);
+            PanelStage.Controls.Add(LabelPrintBladeZero);
+            PanelStage.Controls.Add(TextBoxBuildPlatformPositionOrigin);
+            PanelStage.Controls.Add(TextBoxPrintBladeZero);
+            PanelStage.Controls.Add(LabelBuildPlatformPositionOrigin);
+            PanelStage.Controls.Add(LabelCollectBladeLimit);
+            PanelStage.Controls.Add(TextBoxBuildPlatformPositionLimitA);
+            PanelStage.Controls.Add(TextBoxCollectBladeLimit);
+            PanelStage.Controls.Add(LabelBuildPlatformPositionLimitA);
+            PanelStage.Controls.Add(LabelCollectBladeZero);
+            PanelStage.Controls.Add(TextBoxBuildPlatformPositionLimitB);
+            PanelStage.Controls.Add(TextBoxCollectBladeZero);
+            PanelStage.Controls.Add(LabelBuildPlatformPositionLimitB);
+            PanelStage.Controls.Add(ButtonCollectBlade);
+            PanelStage.Controls.Add(ButtonPrintBlade);
+            PanelStage.Location = new Point(12, 12);
+            PanelStage.Name = "PanelStage";
+            PanelStage.Size = new Size(1052, 676);
+            PanelStage.TabIndex = 29;
+            // 
+            // PanelWaterLevel
+            // 
+            PanelWaterLevel.Controls.Add(TextBoxCurrentWaterLevel);
+            PanelWaterLevel.Controls.Add(LabelCurrentWaterLevel);
+            PanelWaterLevel.Location = new Point(12, 704);
+            PanelWaterLevel.Name = "PanelWaterLevel";
+            PanelWaterLevel.Size = new Size(292, 248);
+            PanelWaterLevel.TabIndex = 30;
+            // 
+            // TextBoxCurrentWaterLevel
+            // 
+            TextBoxCurrentWaterLevel.Location = new Point(178, 16);
+            TextBoxCurrentWaterLevel.Name = "TextBoxCurrentWaterLevel";
+            TextBoxCurrentWaterLevel.Size = new Size(100, 23);
+            TextBoxCurrentWaterLevel.TabIndex = 5;
+            TextBoxCurrentWaterLevel.Text = "300";
+            // 
+            // LabelCurrentWaterLevel
+            // 
+            LabelCurrentWaterLevel.AutoSize = true;
+            LabelCurrentWaterLevel.Location = new Point(12, 19);
+            LabelCurrentWaterLevel.Name = "LabelCurrentWaterLevel";
+            LabelCurrentWaterLevel.Size = new Size(113, 15);
+            LabelCurrentWaterLevel.TabIndex = 6;
+            LabelCurrentWaterLevel.Text = "Current Water Level";
+            // 
             // DM400
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1076, 1127);
+            ClientSize = new Size(1076, 1227);
+            Controls.Add(PanelWaterLevel);
+            Controls.Add(PanelStage);
             Controls.Add(buttonPortClose);
             Controls.Add(buttonPortOpen);
             Controls.Add(buttonClear);
             Controls.Add(logText);
             Controls.Add(dataGridView_PortConfiguration);
-            Controls.Add(LabelPrintBladeLimit);
-            Controls.Add(TextBoxPrintBladeLimit);
-            Controls.Add(LabelPrintBladeZero);
-            Controls.Add(TextBoxPrintBladeZero);
-            Controls.Add(LabelCollectBladeLimit);
-            Controls.Add(TextBoxCollectBladeLimit);
-            Controls.Add(LabelCollectBladeZero);
-            Controls.Add(TextBoxCollectBladeZero);
-            Controls.Add(ButtonCollectBlade);
-            Controls.Add(ButtonPrintBlade);
-            Controls.Add(LabelBuildPlatformPositionLimitB);
-            Controls.Add(TextBoxBuildPlatformPositionLimitB);
-            Controls.Add(LabelBuildPlatformPositionLimitA);
-            Controls.Add(TextBoxBuildPlatformPositionLimitA);
-            Controls.Add(LabelBuildPlatformPositionOrigin);
-            Controls.Add(TextBoxBuildPlatformPositionOrigin);
-            Controls.Add(LabelBuildPlatformPositionTop);
-            Controls.Add(TextBoxBuildPlatformPositionTop);
-            Controls.Add(ButtonBuildPlatform);
-            Controls.Add(LabelLevelTankLimit);
-            Controls.Add(LabelLevelTankZero);
-            Controls.Add(TextBoxLevelTankLimit);
-            Controls.Add(TextBoxLevelTankZero);
-            Controls.Add(ButtonLevelTank);
             Name = "DM400";
             Text = "DM400";
             FormClosing += DM400_FormClosing;
             Load += DM400_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView_PortConfiguration).EndInit();
+            PanelStage.ResumeLayout(false);
+            PanelStage.PerformLayout();
+            PanelWaterLevel.ResumeLayout(false);
+            PanelWaterLevel.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -433,5 +477,9 @@
         public TextBox TextBoxCollectBladeLimit;
         public TextBox TextBoxPrintBladeLimit;
         public TextBox TextBoxPrintBladeZero;
+        private Panel PanelStage;
+        private Panel PanelWaterLevel;
+        public TextBox TextBoxCurrentWaterLevel;
+        private Label LabelCurrentWaterLevel;
     }
 }

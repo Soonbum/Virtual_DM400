@@ -200,7 +200,7 @@ namespace Virtual_DM400
             {
                 // 예제: "%01$RMD-0123456**" : -12.3456mm
                 double lower = -10.0;
-                double upper = -1.0;
+                double upper = -11.0;
 
                 Random rand = new Random();
                 double randomValue = rand.NextDouble() * (upper - lower) + lower;
@@ -214,10 +214,12 @@ namespace Virtual_DM400
                 string formattedValue = string.Format("{0:+0000000;-0000000}", intValue);
 
                 // 5. 최종 응답 문자열 조합
-                string responseData = $"%01$RMD{formattedValue}**";
+                string responseData = $"%01$RMD{formattedValue}**\r\n";
 
                 // ...
                 mainForm.TextBoxCurrentWaterLevel.Text = $"{randomValue:F4}"; // 현재 수위 표시
+
+                Thread.Sleep(500);
 
                 return responseData;
             }

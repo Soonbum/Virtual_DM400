@@ -168,8 +168,9 @@ namespace Virtual_DM400
             {
                 string receivedData = serialPort.ReadExisting();
                 buffer.Append(receivedData);
+                string receivedDataComplete = buffer.ToString();
 
-                if (receivedData.EndsWith("\r") || receivedData.EndsWith("\n") || receivedData.EndsWith("\r\n") || receivedData.EndsWith("\0"))
+                if (receivedDataComplete.EndsWith("\r") || receivedDataComplete.EndsWith("\n") || receivedDataComplete.EndsWith("\r\n") || receivedDataComplete.EndsWith("\0"))
                 {
                     string message = buffer.ToString().Trim().ToUpper();
 

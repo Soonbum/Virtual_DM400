@@ -8,7 +8,7 @@ namespace Virtual_DM400
     public partial class DM400 : Form
     {
         int rowCount = -1;
-        List<SerialPortEmulator> serialPortEmulators = new();
+        List<SerialPortEmulator> serialPortEmulators = [];
 
         public DM400()
         {
@@ -93,8 +93,10 @@ namespace Virtual_DM400
 
                 SerialPortEmulator newEmulator = new(this, portName, baudRate, parity, dataBits, stopBits);
 
-                Thread newThread = new Thread(newEmulator.Start);
-                newThread.IsBackground = true;
+                Thread newThread = new(newEmulator.Start)
+                {
+                    IsBackground = true
+                };
                 newThread.Start();
 
                 serialPortEmulators.Add(newEmulator);
@@ -115,21 +117,14 @@ namespace Virtual_DM400
         }
     }
 
-    public class SerialPortEmulator
+    public class SerialPortEmulator(DM400 mainForm, string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
     {
-        private DM400 mainForm;
+        private DM400 mainForm = mainForm;
 
         int rowCount_PortConfiguration = -1;
 
-        private SerialPort serialPort;
+        private SerialPort serialPort = new(portName, baudRate, parity, dataBits, stopBits);
         private bool isRunning = false;
-        private string foundDeviceName;
-
-        public SerialPortEmulator(DM400 mainForm, string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
-        {
-            this.mainForm = mainForm;
-            serialPort = new(portName, baudRate, parity, dataBits, stopBits);
-        }
 
         public void SetDataGridView(DataGridView dataGridView_PortConfiguration)
         {
@@ -137,13 +132,6 @@ namespace Virtual_DM400
             {
                 if ((string)dataGridView_PortConfiguration.Rows[i].Cells[1].Value != "")
                     rowCount_PortConfiguration++;
-            }
-
-            // serialPort.PortName을 가진 DeviceName을 찾음
-            for (int i = 0; i < rowCount_PortConfiguration; i++)
-            {
-                if ((string)dataGridView_PortConfiguration.Rows[i].Cells[1].Value == serialPort.PortName)
-                    foundDeviceName = (string)dataGridView_PortConfiguration.Rows[i].Cells[0].Value;
             }
         }
 
@@ -160,7 +148,7 @@ namespace Virtual_DM400
             }
         }
 
-        private static StringBuilder buffer = new StringBuilder();
+        private static StringBuilder buffer = new();
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -170,7 +158,7 @@ namespace Virtual_DM400
                 buffer.Append(receivedData);
                 string receivedDataComplete = buffer.ToString();
 
-                if (receivedDataComplete.EndsWith("\r") || receivedDataComplete.EndsWith("\n") || receivedDataComplete.EndsWith("\r\n") || receivedDataComplete.EndsWith("\0"))
+                if (receivedDataComplete.EndsWith('\r') || receivedDataComplete.EndsWith('\n') || receivedDataComplete.EndsWith("\r\n") || receivedDataComplete.EndsWith('\0'))
                 {
                     string message = buffer.ToString().Trim().ToUpper();
 
@@ -204,7 +192,7 @@ namespace Virtual_DM400
                 double lower = -10.0;
                 double upper = -11.0;
 
-                Random rand = new Random();
+                Random rand = new();
                 double randomValue = rand.NextDouble() * (upper - lower) + lower;
 
                 // 예: -9.8765 -> -98765
@@ -296,7 +284,7 @@ namespace Virtual_DM400
                 // 레벨 탱크 버튼에 위치 값 표시
                 mainForm.Invoke(new Action(() =>
                 {
-                    mainForm.ButtonLevelTank.Text = $"Level Tank\n({(LevelTankPosition / 6400).ToString()})";
+                    mainForm.ButtonLevelTank.Text = $"Level Tank\n({LevelTankPosition / 6400})";
                 }));
 
                 // 레벨 탱크 버튼의 위치 변경
@@ -355,7 +343,7 @@ namespace Virtual_DM400
                 // 조형판 버튼에 위치 값 표시
                 mainForm.Invoke(new Action(() =>
                 {
-                    mainForm.ButtonBuildPlatform.Text = $"Build Platform\n({(BuildPlatformPosition / 2560).ToString("0.00")})";
+                    mainForm.ButtonBuildPlatform.Text = $"Build Platform\n({BuildPlatformPosition / 2560:0.00})";
                 }));
 
                 // 조형판 버튼의 위치 변경

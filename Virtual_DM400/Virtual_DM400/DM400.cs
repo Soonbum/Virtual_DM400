@@ -42,16 +42,22 @@ namespace Virtual_DM400
 
         public void RestrictButtons(bool isConnected)
         {
-            if (isConnected)
-            {
-                buttonPortOpen.Enabled = false;
-                buttonPortClose.Enabled = true;
-            }
-            else
-            {
-                buttonPortOpen.Enabled = true;
-                buttonPortClose.Enabled = false;
-            }
+            buttonPortOpen.Enabled = !isConnected;
+            buttonPortClose.Enabled = isConnected;
+
+            TextBoxLevelTankZero.Enabled = !isConnected;
+            TextBoxLevelTankLimit.Enabled = !isConnected;
+            TextBoxCollectBladeZero.Enabled = !isConnected;
+            TextBoxCollectBladeLimit.Enabled = !isConnected;
+            TextBoxPrintBladeZero.Enabled = !isConnected;
+            TextBoxPrintBladeLimit.Enabled = !isConnected;
+            TextBoxBuildPlatformPositionTop.Enabled = !isConnected;
+            TextBoxBuildPlatformPositionOrigin.Enabled = !isConnected;
+            TextBoxBuildPlatformPositionLimitA.Enabled = !isConnected;
+            TextBoxBuildPlatformPositionLimitB.Enabled = !isConnected;
+
+            TextBoxCurrentWaterLevelMin.Enabled = !isConnected;
+            TextBoxCurrentWaterLevelMax.Enabled = !isConnected;
         }
 
         public void LogWriteLine(string message)
@@ -158,7 +164,7 @@ namespace Virtual_DM400
                 buffer.Append(receivedData);
                 string receivedDataComplete = buffer.ToString();
 
-                if (receivedDataComplete.EndsWith('\r') || receivedDataComplete.EndsWith('\n') || receivedDataComplete.EndsWith("\r\n") || receivedDataComplete.EndsWith('\0'))
+                if (receivedDataComplete.EndsWith('\r') || receivedDataComplete.EndsWith('\n'))
                 {
                     string message = buffer.ToString().Trim().ToUpper();
 
@@ -184,9 +190,12 @@ namespace Virtual_DM400
 
         private string ProcessReceivedData(string receivedData)
         {
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 온도 컨트롤러
+            // ...
+            
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 레벨 센서
             // 의미: sensor 01에게 RMD 명령을 보내면 현재 측정 값을 알려줌
-            if (receivedData.Trim() == "%01#RMD**")
+            if (receivedData.Trim().StartsWith("%01#RMD**"))
             {
                 // 예제: "%01$RMD-0123456**" : -12.3456mm
                 double lower = -10.0;
@@ -216,60 +225,44 @@ namespace Virtual_DM400
                 return responseData;
             }
 
-            //public int GetLightAmount()
-            //{
-            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
-            //    this.serialPort.Write("%01#RID**\r");
-            //    Thread.Sleep(50);
+            // 의미: sensor 01에게 RID 명령을 보내면 현재 광량을 알려줌
+            if (receivedData.Trim().StartsWith("%01#RID**\r"))
+            {
+                // ... int returnLightAmount = Convert.ToInt32(receivedMessage.Substring(7, 6)); <-- 반송 값
+            }
 
-            //    string receivedMessage = this.serialPort.ReadExisting();
-            //    int returnLightAmount = Convert.ToInt32(receivedMessage.Substring(7, 6));
+            // 의미: sensor 01에게 WSP 명령을 보내면 샘플링 주기를 설정함 (200us)
+            if (receivedData.Trim().StartsWith("%01#WSP+00000**\r"))
+            {
+                // ... Rate_200us --> 무엇을 반송해야 하나? (0)
+            }
+            // 의미: sensor 01에게 WSP 명령을 보내면 샘플링 주기를 설정함 (500us)
+            if (receivedData.Trim().StartsWith("%01#WSP+00001**\r"))
+            {
+                // ... Rate_500us --> 무엇을 반송해야 하나? (1)
+            }
+            // 의미: sensor 01에게 WSP 명령을 보내면 샘플링 주기를 설정함 (1ms)
+            if (receivedData.Trim().StartsWith("%01#WSP+00002**\r"))
+            {
+                // ... Rate_1ms --> 무엇을 반송해야 하나? (2)
+            }
+            // 의미: sensor 01에게 WSP 명령을 보내면 샘플링 주기를 설정함 (2ms)
+            if (receivedData.Trim().StartsWith("%01#WSP+00003**\r"))
+            {
+                // ... Rate_2ms --> 무엇을 반송해야 하나? (3)
+            }
 
-            //    return returnLightAmount;
-            //}
+            // 의미: sensor 01에게 WIN 명령을 보내면 초기화함
+            if (receivedData.Trim().StartsWith("%01#WIN+00001**\r"))
+            {
+                // ... 무엇을 반송해야 하나?
+            }
 
-
-            //// 샘플링 주기를 지정함 (enum Sampling 값 참조)
-            //public string SetSamplingRate(int samplingRate)
-            //{
-            //    string[] messageList = ["%01#WSP+00000**\r", "%01#WSP+00001**\r", "%01#WSP+00002**\r", "%01#WSP+00003**\r"];    // Rate_200us, Rate_500us, Rate_1ms, Rate_2ms
-
-            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
-            //    this.serialPort.Write(messageList[samplingRate]);
-            //    Thread.Sleep(50);
-
-            //    string returnString = this.serialPort.ReadExisting();
-
-            //    return returnString;
-            //}
-
-            //// 초기화를 수행함 (enum Initialization 값 참조)
-            //public void SetSamplingRateValue(int samplingRate) { this.samplingRateValue = samplingRate; }
-
-            //public string SetInitialization(int command)
-            //{
-            //    string[] messageList = ["%01#WIN+00000**\r", "%01#WIN+00001**\r"];      // Command_None, Command_Initialize
-
-            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
-            //    this.serialPort.Write(messageList[command]);
-            //    Thread.Sleep(50);
-
-            //    string returnString = this.serialPort.ReadExisting();
-
-            //    return returnString;
-            //}
-
-            //// 영점 기준을 지정함
-            //public string SetZeroSet()
-            //{
-            //    if (this.serialPort.IsOpen == false) this.serialPort.Open();
-            //    this.serialPort.Write("%01#WZS+00001**\r");
-            //    Thread.Sleep(50);
-
-            //    string returnString = this.serialPort.ReadExisting();
-
-            //    return returnString;
-            //}
+            // 의미: sensor 01에게 WZS 명령을 보내면 영점 기준을 설정함\
+            if (receivedData.Trim().StartsWith("%01#WZS+00001**\r"))
+            {
+                // ... 무엇을 반송해야 하나?
+            }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 원보드
             // 레벨 탱크 이동

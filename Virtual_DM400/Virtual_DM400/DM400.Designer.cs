@@ -67,6 +67,9 @@
             PanelWaterLevel = new Panel();
             TextBoxCurrentWaterLevel = new TextBox();
             LabelCurrentWaterLevel = new Label();
+            TextBoxCurrentWaterLevelMin = new TextBox();
+            TextBoxCurrentWaterLevelMax = new TextBox();
+            LabelCurrentWaterLevelRange = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView_PortConfiguration).BeginInit();
             PanelStage.SuspendLayout();
             PanelWaterLevel.SuspendLayout();
@@ -395,21 +398,24 @@
             // PanelWaterLevel
             // 
             PanelWaterLevel.BorderStyle = BorderStyle.FixedSingle;
+            PanelWaterLevel.Controls.Add(TextBoxCurrentWaterLevelMax);
+            PanelWaterLevel.Controls.Add(TextBoxCurrentWaterLevelMin);
+            PanelWaterLevel.Controls.Add(LabelCurrentWaterLevelRange);
             PanelWaterLevel.Controls.Add(TextBoxCurrentWaterLevel);
             PanelWaterLevel.Controls.Add(LabelCurrentWaterLevel);
             PanelWaterLevel.Location = new Point(12, 590);
             PanelWaterLevel.Name = "PanelWaterLevel";
-            PanelWaterLevel.Size = new Size(292, 65);
+            PanelWaterLevel.Size = new Size(497, 65);
             PanelWaterLevel.TabIndex = 30;
             // 
             // TextBoxCurrentWaterLevel
             // 
             TextBoxCurrentWaterLevel.Enabled = false;
-            TextBoxCurrentWaterLevel.Location = new Point(178, 16);
+            TextBoxCurrentWaterLevel.Location = new Point(143, 16);
             TextBoxCurrentWaterLevel.Name = "TextBoxCurrentWaterLevel";
             TextBoxCurrentWaterLevel.Size = new Size(100, 23);
             TextBoxCurrentWaterLevel.TabIndex = 5;
-            TextBoxCurrentWaterLevel.Text = "300";
+            TextBoxCurrentWaterLevel.Text = "-3.0000";
             // 
             // LabelCurrentWaterLevel
             // 
@@ -419,6 +425,31 @@
             LabelCurrentWaterLevel.Size = new Size(113, 15);
             LabelCurrentWaterLevel.TabIndex = 6;
             LabelCurrentWaterLevel.Text = "Current Water Level";
+            // 
+            // TextBoxCurrentWaterLevelMin
+            // 
+            TextBoxCurrentWaterLevelMin.Location = new Point(294, 16);
+            TextBoxCurrentWaterLevelMin.Name = "TextBoxCurrentWaterLevelMin";
+            TextBoxCurrentWaterLevelMin.Size = new Size(64, 23);
+            TextBoxCurrentWaterLevelMin.TabIndex = 7;
+            TextBoxCurrentWaterLevelMin.Text = "-3.1";
+            // 
+            // TextBoxCurrentWaterLevelMax
+            // 
+            TextBoxCurrentWaterLevelMax.Location = new Point(386, 16);
+            TextBoxCurrentWaterLevelMax.Name = "TextBoxCurrentWaterLevelMax";
+            TextBoxCurrentWaterLevelMax.Size = new Size(64, 23);
+            TextBoxCurrentWaterLevelMax.TabIndex = 8;
+            TextBoxCurrentWaterLevelMax.Text = "-2.9";
+            // 
+            // LabelCurrentWaterLevelRange
+            // 
+            LabelCurrentWaterLevelRange.AutoSize = true;
+            LabelCurrentWaterLevelRange.Location = new Point(281, 19);
+            LabelCurrentWaterLevelRange.Name = "LabelCurrentWaterLevelRange";
+            LabelCurrentWaterLevelRange.Size = new Size(183, 15);
+            LabelCurrentWaterLevelRange.TabIndex = 9;
+            LabelCurrentWaterLevelRange.Text = "(                    ~                    )";
             // 
             // DM400
             // 
@@ -484,5 +515,8 @@
         private Panel PanelWaterLevel;
         public TextBox TextBoxCurrentWaterLevel;
         private Label LabelCurrentWaterLevel;
+        public TextBox TextBoxCurrentWaterLevelMax;
+        public TextBox TextBoxCurrentWaterLevelMin;
+        private Label LabelCurrentWaterLevelRange;
     }
 }

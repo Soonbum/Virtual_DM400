@@ -1,6 +1,7 @@
 using System.Text;
 using System.IO.Ports;
 using static System.Windows.Forms.AxHost;
+using System.Windows.Forms;
 
 namespace Virtual_DM400
 {
@@ -22,8 +23,8 @@ namespace Virtual_DM400
             dataGridView_PortConfiguration.Columns["DataBits"].ValueType = typeof(int);
             dataGridView_PortConfiguration.Columns["StopBits"].ValueType = typeof(int);
 
-            dataGridView_PortConfiguration.Rows.Add("FirmwareController", "COM6", 115200, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
-            dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM4", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
+            dataGridView_PortConfiguration.Rows.Add("FirmwareController", "COM5", 115200, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
+            dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM3", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
         }
 
         private void DM400_Load(object sender, EventArgs e)
@@ -214,10 +215,12 @@ namespace Virtual_DM400
                 string formattedValue = string.Format("{0:+0000000;-0000000}", intValue);
 
                 // 5. 최종 응답 문자열 조합
-                string responseData = $"%01$RMD{formattedValue}**\r\n";
+                string responseData = $"%01$RMD{formattedValue}**";
 
-                // ...
-                mainForm.TextBoxCurrentWaterLevel.Text = $"{randomValue:F4}"; // 현재 수위 표시
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.TextBoxCurrentWaterLevel.Text = $"{randomValue:F4}"; // 현재 수위 표시
+                }));
 
                 Thread.Sleep(500);
 
@@ -290,7 +293,10 @@ namespace Virtual_DM400
                 LevelTankPosition = decimalValue;
 
                 // 레벨 탱크 버튼에 위치 값 표시
-                mainForm.ButtonLevelTank.Text = $"Level Tank\n({(LevelTankPosition / 6400).ToString()})";
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonLevelTank.Text = $"Level Tank\n({(LevelTankPosition / 6400).ToString()})";
+                }));
 
                 // 레벨 탱크 버튼의 위치 변경
                 double.TryParse(mainForm.TextBoxLevelTankLimit.Text, out double maxValue);  // 레벨 탱크 위치 최대치
@@ -307,7 +313,10 @@ namespace Virtual_DM400
                 double positionRatio = 1.0 - valueRatio;                                    // 값이 클수록 위로 가도록 비율 반전시킴
                 double newY = startY + ((endY - startY) * positionRatio);                   // 버튼의 Y 좌표 계산
 
-                mainForm.ButtonLevelTank.Location = new Point(mainForm.ButtonLevelTank.Location.X, (int)Math.Round(newY));
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonLevelTank.Location = new Point(mainForm.ButtonLevelTank.Location.X, (int)Math.Round(newY));
+                }));
 
                 Thread.Sleep(500);
 
@@ -343,7 +352,10 @@ namespace Virtual_DM400
                 BuildPlatformPosition = decimalValue;
 
                 // 조형판 버튼에 위치 값 표시
-                mainForm.ButtonBuildPlatform.Text = $"Build Platform\n({(BuildPlatformPosition / 2560).ToString("0.00")})";
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonBuildPlatform.Text = $"Build Platform\n({(BuildPlatformPosition / 2560).ToString("0.00")})";
+                }));
 
                 // 조형판 버튼의 위치 변경
                 // 1. 기준 값과 좌표들을 모두 가져옵니다.
@@ -389,7 +401,10 @@ namespace Virtual_DM400
                 }
 
                 // 4. 버튼의 위치를 최종적으로 업데이트합니다.
-                mainForm.ButtonBuildPlatform.Location = new Point(mainForm.ButtonBuildPlatform.Location.X, newY);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonBuildPlatform.Location = new Point(mainForm.ButtonBuildPlatform.Location.X, newY);
+                }));
                 BuildPlatformPosition = decimalValue;
 
                 Thread.Sleep(500);
@@ -428,7 +443,10 @@ namespace Virtual_DM400
                 // string.Format("7E25{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeLimit.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeLimit.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -440,7 +458,10 @@ namespace Virtual_DM400
                 // string.Format("7E27{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeLimit.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeLimit.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -452,7 +473,10 @@ namespace Virtual_DM400
                 // string.Format("7E26{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeZero.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeZero.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -464,7 +488,10 @@ namespace Virtual_DM400
                 // string.Format("7E28{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeZero.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonPrintBlade.Location = new Point(mainForm.TextBoxPrintBladeZero.Location.X, mainForm.ButtonPrintBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -483,7 +510,10 @@ namespace Virtual_DM400
                 // string.Format("7E35{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeLimit.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeLimit.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -495,7 +525,10 @@ namespace Virtual_DM400
                 // string.Format("7E37{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeLimit.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeLimit.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -507,7 +540,10 @@ namespace Virtual_DM400
                 // string.Format("7E36{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeZero.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeZero.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 
@@ -519,7 +555,10 @@ namespace Virtual_DM400
                 // string.Format("7E38{0:X6}", (int)(Step))
 
                 // 프린트 블레이드 버튼의 위치 변경
-                mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeZero.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                mainForm.Invoke(new Action(() =>
+                {
+                    mainForm.ButtonCollectBlade.Location = new Point(mainForm.TextBoxCollectBladeZero.Location.X, mainForm.ButtonCollectBlade.Location.Y);
+                }));
 
                 Thread.Sleep(500);
 

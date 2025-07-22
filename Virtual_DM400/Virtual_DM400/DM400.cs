@@ -139,12 +139,11 @@ namespace Virtual_DM400
             }
         }
 
-        private static StringBuilder buffer = new StringBuilder();
-
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (serialPort.BytesToRead > 0)
             {
+                StringBuilder buffer = new();
                 string receivedData = serialPort.ReadExisting();
                 buffer.Append(receivedData);
 

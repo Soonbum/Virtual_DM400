@@ -2,6 +2,7 @@ using System.Text;
 using System.IO.Ports;
 using static System.Windows.Forms.AxHost;
 using System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 namespace Virtual_DM400
 {
@@ -119,12 +120,20 @@ namespace Virtual_DM400
         }
     }
 
-    public class SerialPortEmulator(DM400 mainForm, string deviceName, string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+    public class SerialPortEmulator
     {
-        private DM400 mainForm = mainForm;
+        private DM400 mainForm;
 
-        private SerialPort serialPort = new(portName, baudRate, parity, dataBits, stopBits);
+        private readonly SerialPort serialPort;
+        private readonly string deviceName;
         private bool isRunning = false;
+
+        public SerialPortEmulator(DM400 mainForm, string deviceName, string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+        {
+            this.mainForm = mainForm;
+            this.serialPort = new(portName, baudRate, parity, dataBits, stopBits);
+            this.deviceName = deviceName;
+        }
 
         public void Start()
         {
@@ -177,6 +186,17 @@ namespace Virtual_DM400
         public int BuildPlatformPosition = 0;  // DM400 SW로부터 온 값의 2560을 곱한 값을 저장함
 
         private string ProcessReceivedData(string message)
+        {
+            // !!! 이 부분부터 Debug 모드로 변수 값 추적 필요함
+            if (this.deviceName == "FirmwareController")
+                return ProcessFirmwareControllerData(message);
+            else if (this.deviceName == "WaterLevelChecker")
+                return ProcessWaterLevelCheckerData(message);
+            else
+                return "UNKNOWN_DEVICE_ERROR";
+        }
+
+        private string ProcessFirmwareControllerData(string message)
         {
             // 레벨 탱크 이동
             if (message.Trim().StartsWith("7E03"))
@@ -440,6 +460,11 @@ namespace Virtual_DM400
                 return "1";
             }
 
+            return "FIRMWARE_CONTROLLER_ERROR";
+        }
+
+        private string ProcessWaterLevelCheckerData(string message)
+        {
             // 의미: sensor 01에게 RMD 명령을 보내면 현재 측정 값을 알려줌
             if (message.Trim().StartsWith("%01#RMD**"))
             {
@@ -508,7 +533,7 @@ namespace Virtual_DM400
             //    // ... 무엇을 반송해야 하나?
             //}
 
-            return "ERROR";
+            return "WATER_LEVEL_CHECKER_ERROR";
         }
 
         private int InterpolateForBuildPlatform(double currentValue, double startVal, double endVal, int startY, int endY)

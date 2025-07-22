@@ -65,11 +65,11 @@
             buttonPortOpen = new Button();
             PanelStage = new Panel();
             PanelWaterLevel = new Panel();
+            TextBoxCurrentWaterLevelMax = new TextBox();
+            TextBoxCurrentWaterLevelMin = new TextBox();
+            LabelCurrentWaterLevelRange = new Label();
             TextBoxCurrentWaterLevel = new TextBox();
             LabelCurrentWaterLevel = new Label();
-            TextBoxCurrentWaterLevelMin = new TextBox();
-            TextBoxCurrentWaterLevelMax = new TextBox();
-            LabelCurrentWaterLevelRange = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView_PortConfiguration).BeginInit();
             PanelStage.SuspendLayout();
             PanelWaterLevel.SuspendLayout();
@@ -408,6 +408,31 @@
             PanelWaterLevel.Size = new Size(497, 65);
             PanelWaterLevel.TabIndex = 30;
             // 
+            // TextBoxCurrentWaterLevelMax
+            // 
+            TextBoxCurrentWaterLevelMax.Location = new Point(386, 16);
+            TextBoxCurrentWaterLevelMax.Name = "TextBoxCurrentWaterLevelMax";
+            TextBoxCurrentWaterLevelMax.Size = new Size(64, 23);
+            TextBoxCurrentWaterLevelMax.TabIndex = 8;
+            TextBoxCurrentWaterLevelMax.Text = "-3.0";
+            // 
+            // TextBoxCurrentWaterLevelMin
+            // 
+            TextBoxCurrentWaterLevelMin.Location = new Point(294, 16);
+            TextBoxCurrentWaterLevelMin.Name = "TextBoxCurrentWaterLevelMin";
+            TextBoxCurrentWaterLevelMin.Size = new Size(64, 23);
+            TextBoxCurrentWaterLevelMin.TabIndex = 7;
+            TextBoxCurrentWaterLevelMin.Text = "-3.0";
+            // 
+            // LabelCurrentWaterLevelRange
+            // 
+            LabelCurrentWaterLevelRange.AutoSize = true;
+            LabelCurrentWaterLevelRange.Location = new Point(281, 19);
+            LabelCurrentWaterLevelRange.Name = "LabelCurrentWaterLevelRange";
+            LabelCurrentWaterLevelRange.Size = new Size(183, 15);
+            LabelCurrentWaterLevelRange.TabIndex = 9;
+            LabelCurrentWaterLevelRange.Text = "(                    ~                    )";
+            // 
             // TextBoxCurrentWaterLevel
             // 
             TextBoxCurrentWaterLevel.Enabled = false;
@@ -426,31 +451,6 @@
             LabelCurrentWaterLevel.TabIndex = 6;
             LabelCurrentWaterLevel.Text = "Current Water Level";
             // 
-            // TextBoxCurrentWaterLevelMin
-            // 
-            TextBoxCurrentWaterLevelMin.Location = new Point(294, 16);
-            TextBoxCurrentWaterLevelMin.Name = "TextBoxCurrentWaterLevelMin";
-            TextBoxCurrentWaterLevelMin.Size = new Size(64, 23);
-            TextBoxCurrentWaterLevelMin.TabIndex = 7;
-            TextBoxCurrentWaterLevelMin.Text = "-3.1";
-            // 
-            // TextBoxCurrentWaterLevelMax
-            // 
-            TextBoxCurrentWaterLevelMax.Location = new Point(386, 16);
-            TextBoxCurrentWaterLevelMax.Name = "TextBoxCurrentWaterLevelMax";
-            TextBoxCurrentWaterLevelMax.Size = new Size(64, 23);
-            TextBoxCurrentWaterLevelMax.TabIndex = 8;
-            TextBoxCurrentWaterLevelMax.Text = "-2.9";
-            // 
-            // LabelCurrentWaterLevelRange
-            // 
-            LabelCurrentWaterLevelRange.AutoSize = true;
-            LabelCurrentWaterLevelRange.Location = new Point(281, 19);
-            LabelCurrentWaterLevelRange.Name = "LabelCurrentWaterLevelRange";
-            LabelCurrentWaterLevelRange.Size = new Size(183, 15);
-            LabelCurrentWaterLevelRange.TabIndex = 9;
-            LabelCurrentWaterLevelRange.Text = "(                    ~                    )";
-            // 
             // DM400
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -466,7 +466,6 @@
             Name = "DM400";
             Text = "DM400";
             FormClosing += DM400_FormClosing;
-            Load += DM400_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView_PortConfiguration).EndInit();
             PanelStage.ResumeLayout(false);
             PanelStage.PerformLayout();

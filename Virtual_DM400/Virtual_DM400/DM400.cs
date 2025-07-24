@@ -24,6 +24,7 @@ namespace Virtual_DM400
             dataGridView_PortConfiguration.Columns["DataBits"].ValueType = typeof(int);
             dataGridView_PortConfiguration.Columns["StopBits"].ValueType = typeof(int);
 
+            // !!! 포트 구성으로 인해 순서에 상관없이 COM3부터 접근함
             dataGridView_PortConfiguration.Rows.Add("FirmwareController", "COM5", 115200, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
             dataGridView_PortConfiguration.Rows.Add("WaterLevelChecker", "COM3", 38400, (int)System.IO.Ports.Parity.None, 8, (int)System.IO.Ports.StopBits.One);
         }
@@ -162,19 +163,30 @@ namespace Virtual_DM400
                     string message = buffer.ToString().Trim().ToUpper();
 
                     // 받은 데이터를 기반으로 응답 생성
-                    string responseData = ProcessReceivedData(message);
-
-                    // 응답 전송
-                    serialPort.Write(responseData + "\r\n");
+                    string? responseData = ProcessReceivedData(message);
 
                     // 통신 딜레이
-                    //Thread.Sleep(100);
+                    Thread.Sleep(100);
 
-                    // 통신 송수신 값 표시
-                    mainForm.Invoke(new Action(() =>
+                    // 응답 전송
+                    if (responseData != null)
                     {
-                        mainForm.LogWriteLine($"--> {message}\n<-- {responseData}");
-                    }));
+                        serialPort.Write(responseData + "\r\n");
+
+                        // 통신 송수신 값 표시
+                        mainForm.Invoke(new Action(() =>
+                        {
+                            mainForm.LogWriteLine($"--> {message}\n<-- {responseData}");
+                        }));
+                    }
+                    else
+                    {
+                        // 통신 송신 값 표시
+                        mainForm.Invoke(new Action(() =>
+                        {
+                            mainForm.LogWriteLine($"--> {message}\n<-- null");
+                        }));
+                    }
 
                     // 버퍼 초기화
                     buffer.Clear();
@@ -185,7 +197,7 @@ namespace Virtual_DM400
         public int LevelTankPosition = 0;      // DM400 SW로부터 온 값의 6400을 곱한 값을 저장함
         public int BuildPlatformPosition = 0;  // DM400 SW로부터 온 값의 2560을 곱한 값을 저장함
 
-        private string ProcessReceivedData(string message)
+        private string? ProcessReceivedData(string message)
         {
             // !!! 이 부분부터 Debug 모드로 변수 값 추적 필요함
             if (this.deviceName == "FirmwareController")
@@ -193,10 +205,10 @@ namespace Virtual_DM400
             else if (this.deviceName == "WaterLevelChecker")
                 return ProcessWaterLevelCheckerData(message);
             else
-                return "UNKNOWN_DEVICE_ERROR";
+                return null;
         }
 
-        private string ProcessFirmwareControllerData(string message)
+        private string? ProcessFirmwareControllerData(string message)
         {
             // 레벨 탱크 이동
             if (message.Trim().StartsWith("7E03"))
@@ -460,10 +472,10 @@ namespace Virtual_DM400
                 return "1";
             }
 
-            return "FIRMWARE_CONTROLLER_ERROR";
+            return null;
         }
 
-        private string ProcessWaterLevelCheckerData(string message)
+        private string? ProcessWaterLevelCheckerData(string message)
         {
             // 의미: sensor 01에게 RMD 명령을 보내면 현재 측정 값을 알려줌
             if (message.Trim().StartsWith("%01#RMD**"))
@@ -533,7 +545,7 @@ namespace Virtual_DM400
             //    // ... 무엇을 반송해야 하나?
             //}
 
-            return "WATER_LEVEL_CHECKER_ERROR";
+            return null;
         }
 
         private int InterpolateForBuildPlatform(double currentValue, double startVal, double endVal, int startY, int endY)
